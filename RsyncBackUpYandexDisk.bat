@@ -1,81 +1,80 @@
-REM # ‘ªà¨¯â á¨­åà®­¨§ æ¨¨ «®ª «ì­ëå ¤ ­­ëå á Ÿ­¤¥ªá ¤¨áª®¬ ¢ Windows
+REM # Ð¡ÐºÑ€Ð¸Ð¿Ñ‚ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ… Ñ Ð¯Ð½Ð´ÐµÐºÑ Ð´Ð¸ÑÐºÐ¾Ð¼ Ð² Windows
 
 @ECHO OFF
-REM # „«ï ¯à®æ¥áá  á¨­åà®­¨§ æ¨¨ ¯à¨¬¥­ïîâáï ¯à®£à ¬¬ë:
+REM # Ð”Ð»Ñ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ° ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÑÑŽÑ‚ÑÑ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹:
 REM # cmail - https://www.inveigle.net/cmail/download
 REM # rclone - https://rclone.org/downloads/
-REM # ‚­¨¬ ­¨¥!!! „«ï ª®àà¥ªâ­®£® ®â®¡à ¦¥­¨ï á¨¬¢®«®¢ ¢ ¯®çâ®¢ëå á®®¡é¥­¨ïå, ª®¤¨à®¢ª  ä ©« -áªà¨¯â  ¤®«¦­  ¡ëâì OEM 866
+REM # Ð’Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ!!! Ð”Ð»Ñ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð² Ð² Ð¿Ð¾Ñ‡Ñ‚Ð¾Ð²Ñ‹Ñ… ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸ÑÑ…, ÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²ÐºÐ° Ñ„Ð°Ð¹Ð»Ð°-ÑÐºÑ€Ð¸Ð¿Ñ‚Ð° Ð´Ð¾Ð»Ð¶Ð½Ð° Ð±Ñ‹Ñ‚ÑŒ OEM 866
 
-REM # «®ª ­ áâà®©ª¨ ¢à¥¬¥­¨ ¤«ï ä ©«  «®£®¢
+REM # Ð‘Ð»Ð¾Ðº Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð´Ð»Ñ Ñ„Ð°Ð¹Ð»Ð° Ð»Ð¾Ð³Ð¾Ð²
 	SET hr=%time:~0,2%
 	IF "%hr:~0,1%" equ " " SET hr=0%hr:~1,1%
 	SET DATETIMEF=%date:~-4,4%_%date:~-7,2%_%date:~-10,2%__%hr%_%time:~3,2%_%time:~6,2%
 
-REM # «®ª ­ áâà®©ª¨ ¯®çâë
-	REM # ãª §ë¢ ¥¬ à á¯®«®¦¥­¨¥ ä ©«  ¯®çâ®¢®© ¯à®£à ¬¬ë
+REM # Ð‘Ð»Ð¾Ðº Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¿Ð¾Ñ‡Ñ‚Ñ‹
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð° Ð¿Ð¾Ñ‡Ñ‚Ð¾Ð²Ð¾Ð¹ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹
 		SET CMAIL_PATH="C:\Program Files\cmail\cmail.exe"
-	REM # ãª §ë¢ ¥¬ ¨¬ï, ¯ à®«ì ¨ ¯®çâã ®â¯à ¢¨â¥«ï
-		SET MAIL_SENDER=í«¥ªâà®­­ ï ¯®çâ @yandex.ru
-		SET USER_SENDER_NAME=¨¬ï ®â¯à ¢¨â¥«ï
-		SET USER_PASS=¯ à®«ì ¤«ï ¯à¨«®¦¥­¨© á®§¤ ­­ë© ¢ ï­¤¥ªá
-	REM # ãª §ë¢ ¥¬ smtp  ¤à¥á ¯®çâë ®â¯à ¢¨â¥«ï
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ð¸Ð¼Ñ, Ð¿Ð°Ñ€Ð¾Ð»ÑŒ Ð¸ Ð¿Ð¾Ñ‡Ñ‚Ñƒ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÐµÐ»Ñ
+		SET MAIL_SENDER=ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½Ð°Ñ Ð¿Ð¾Ñ‡Ñ‚Ð°@yandex.ru
+		SET USER_SENDER_NAME=Ð¸Ð¼Ñ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÐµÐ»Ñ
+		SET USER_PASS=Ð¿Ð°Ñ€Ð¾Ð»ÑŒ Ð´Ð»Ñ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ð¹ ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð² ÑÐ½Ð´ÐµÐºÑ
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ smtp Ð°Ð´Ñ€ÐµÑ Ð¿Ð¾Ñ‡Ñ‚Ñ‹ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÐµÐ»Ñ
 		SET MAIL_SMTP_ADDRESS=smtp.yandex.ru
-	REM # ãª §ë¢ ¥¬ â¨¯ § é¨âë SSL ¯®çâë ®â¯à ¢¨â¥«ï
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ‚Ð¸Ð¿ Ð·Ð°Ñ‰Ð¸Ñ‚Ñ‹ SSL Ð¿Ð¾Ñ‡Ñ‚Ñ‹ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÐµÐ»Ñ
 		REM # SSL/TLS (STARTTLS): 	-starttls
 		REM # SSL/TLS (SMTPS):		-secureport
 		SET MAIL_SMTP_AUTHENTICATION=-starttls
-	REM # ãª §ë¢ ¥¬ ¯®çâã ¯®«ãç â¥«ï
-		SET MAIL_RECEPIENT=¯®çâ  ¯®«ãç â¥«ï@yandex.ru
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ð¿Ð¾Ñ‡Ñ‚Ñƒ Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»Ñ
+		SET MAIL_RECEPIENT=Ð¿Ð¾Ñ‡Ñ‚Ð° Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»Ñ@yandex.ru
 		
-REM # «®ª ­ áâà®©ª¨ ¯à®£à ¬¬ë à¥§¥à¢­®£® ª®¯¨à®¢ ­¨ï
-	REM # “ª §ë¢ ¥¬ à á¯®«®¦¥­¨¥ ä ©«  rclone.conf (¯® ã¬®«ç ­¨î, ­ å®¤¨âáï ¯® íâ®¬ã ¯ãâ¨, ­® ¥£® ¬®¦­® ¯¥à¥¬¥áâ¨âì)
-		SET RCLONE_CFG_PATH="C:\Users\"®«ì§®¢ â¥«ì"\AppData\Roaming\rclone\rclone.conf"
-	REM # “ª §ë¢ ¥¬ à á¯®«®¦¥­¨¥ ¯à®£à ¬¬ë á¨­åà®­¨§ æ¨¨ rclone.exe
+REM # Ð‘Ð»Ð¾Ðº Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ð¾Ð³Ð¾ ÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
+	REM # Ð£ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð° rclone.conf (Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ, Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð¿Ð¾ ÑÑ‚Ð¾Ð¼Ñƒ Ð¿ÑƒÑ‚Ð¸, Ð½Ð¾ ÐµÐ³Ð¾ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ)
+		SET RCLONE_CFG_PATH="C:\Users\"ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ"\AppData\Roaming\rclone\rclone.conf"
+	REM # Ð£ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ rclone.exe
 		SET RCLONE_EXE_PATH="C:\Program Files\rclone\rclone.exe"
-	REM # ãª §ë¢ ¥¬ à á¯®«®¦¥­¨¥ ä ©«  log ¨ ¯à¨á¢ ¨¢ ¥¬ ¨¬ï á®áâ®ïé¥¥ ¨§ ¤ âë ¨ ¢à¥¬¥­¨
+	REM # ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð° log Ð¸ Ð¿Ñ€Ð¸ÑÐ²Ð°Ð¸Ð²Ð°ÐµÐ¼ Ð¸Ð¼Ñ ÑÐ¾ÑÑ‚Ð¾ÑÑ‰ÐµÐµ Ð¸Ð· Ð´Ð°Ñ‚Ñ‹ Ð¸ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸
 		SET RCLONE_LOG_FILE="D:\LogFiles\rclone_log\%DATETIMEF%.log"
-	REM # --stats-one-line (DEBUG INFO NOTICE ERROR) ãª §ë¢ ¥¬ £«ã¡¨­ã «®£¨à®¢ ­¨ï
+	REM # --stats-one-line (DEBUG INFO NOTICE ERROR) ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ð³Ð»ÑƒÐ±Ð¸Ð½Ñƒ Ð»Ð¾Ð³Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
 		SET RCLONE_OPT_PRM=--log-file=%RCLONE_LOG_FILE% --log-level INFO --progress
-	REM # --include *.{vbk} --exclude *.{vib,vbm,bco} ¨áª«îç¥­¨ï ¯à¨ ­¥®¡å®¤¨¬®áâ¨
+	REM # --include *.{vbk} --exclude *.{vib,vbm,bco} Ð¸ÑÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð¸ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸
 		SET RCLONE_OPT_SEC=
-	REM # “áâ ­ ¢«¨¢ ¥¬ áª®à®áâ­ë¥ ®£à ­¨ç¥­¨ï ¯® ¢à¥¬¥­¨ --bwlimit "06:00,1M 18:00,1M 20:00,off"
+	REM # Ð£ÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð½Ñ‹Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ Ð¿Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ --bwlimit "06:00,1M 18:00,1M 20:00,off"
 		SET RCLONE_OPT_BWL=--bwlimit "06:00,1M 18:00,1M 20:00,off"
-	REM # ‘®¡¨à ¥¬ ª®¬ ­¤ã á¨­åà®­¨§ æ¨¨, ¢ ®¤­ã æ¥«ãî áâà®ªã
+	REM # Ð¡Ð¾Ð±Ð¸Ñ€Ð°ÐµÐ¼ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñƒ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸, Ð² Ð¾Ð´Ð½Ñƒ Ñ†ÐµÐ»ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ
 		SET RCLONE_OPTIONS=--config=%RCLONE_CFG_PATH% %RCLONE_OPT_PRM% %RCLONE_OPT_SEC% %RCLONE_OPT_BWL%
 
 SETLOCAL
-REM # ¢ë¯®«­ï¥¬ á¨­åà®­¨§ æ¨î
-		%RCLONE_EXE_PATH% sync D:\BackUp “ç¥â­ ï‡ ¯¨áì@yandex.ru:/ ¯ª  Ÿ­¤¥ªá„¨áª¥ %RCLONE_OPTIONS%
+REM # Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÐ¼ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸ÑŽ
+		%RCLONE_EXE_PATH% sync D:\BackUp Ð£Ñ‡ÐµÑ‚Ð½Ð°ÑÐ—Ð°Ð¿Ð¸ÑÑŒ@yandex.ru:/ÐŸÐ°Ð¿ÐºÐ°ÐÐ°Ð¯Ð½Ð´ÐµÐºÑÐ”Ð¸ÑÐºÐµ %RCLONE_OPTIONS%
 
-REM # ¯à®¢¥àª¨ ­  ­ «¨ç¨¥ ®è¨¡®ª
-		REM # ¯à®¢¥àª  ¥á«¨ ®è¨¡ª  á¨­åà®­¨§ æ¨¨, â® ®â¯à ¢«ï¥¬ email á ®¯¨á ­¨¥ ®è¨¡ª¨ ¨ ä ©«®¬ «®£®¢
+REM # Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ Ð½Ð° Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ðµ Ð¾ÑˆÐ¸Ð±Ð¾Ðº
+		REM # Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° ÐµÑÐ»Ð¸ Ð¾ÑˆÐ¸Ð±ÐºÐ° ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸, Ñ‚Ð¾ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ email Ñ Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð¾ÑˆÐ¸Ð±ÐºÐ¸ Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð¼ Ð»Ð¾Ð³Ð¾Ð²
 		FINDSTR /I "ERROR" %RCLONE_LOG_FILE% && GOTO ERRORSEND
 
-		REM # ¯à®¢¥àª  ¥á«¨ ­¥ç¥£® á¨­åà®­¨§¨à®¢ âì, â® ®â¯à ¢«ï¥¬ email á ã¢¥¤®¬«¥­¨¥¬ ® ®âáãâáâ¢¨¨ ­®¢ëå ä ©«®¢
+		REM # Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° ÐµÑÐ»Ð¸ Ð½ÐµÑ‡ÐµÐ³Ð¾ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ, Ñ‚Ð¾ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ email Ñ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸ÐµÐ¼ Ð¾ Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ð¸ Ð½Ð¾Ð²Ñ‹Ñ… Ñ„Ð°Ð¹Ð»Ð¾Ð²
 		FINDSTR /C:"There was nothing to transfer" %RCLONE_LOG_FILE% && GOTO NTTSEND
 
-	REM # ¢ë¯®«­ï¥¬ à ááë«ªã ¯¨á¥¬ á ¨­ä®à¬ æ¨¥© ® ¯à®æ¥áá¥ à¥§¥à¢­®£® ª®¯¨à®¢ ­¨ï
+	REM # Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÐ¼ Ñ€Ð°ÑÑÑ‹Ð»ÐºÑƒ Ð¿Ð¸ÑÐµÐ¼ Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÐµÐ¹ Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐµ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ð¾Ð³Ð¾ ÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
 :ALLOK
 ECHO "DO ALL OK SEND"
-		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:C¨­åà®­¨§ æ¨ï à¥§¥à¢­ëå ª®¯¨©, ¢ë¯®«­¥­  ãá¯¥è­®!" "-body:¥§¥à¢­ë¥ ª®¯¨¨, ¢ë£àã¦¥­ë ¢ Ÿ­¤¥ªá„¨áª ¯®«­®áâìî!" "-a:%RCLONE_LOG_FILE%"
+		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:CÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ñ… ÐºÐ¾Ð¿Ð¸Ð¹, Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð° ÑƒÑÐ¿ÐµÑˆÐ½Ð¾!" "-body:Ð ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ðµ ÐºÐ¾Ð¿Ð¸Ð¸, Ð²Ñ‹Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹ Ð² Ð¯Ð½Ð´ÐµÐºÑÐ”Ð¸ÑÐº Ð¿Ð¾Ð»Ð½Ð¾ÑÑ‚ÑŒÑŽ!" "-a:%RCLONE_LOG_FILE%"
 		GOTO DOLOG
 
 :ERRORSEND
 		ECHO "DO ERROR SEND"
-		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:Žè¨¡ª  á¨­åà®­¨§ æ¨¨ à¥§¥à¢­ëå ª®¯¨©!" "-body:¥§¥à¢­ë¥ ª®¯¨¨, ­¥¡ë«¨ ¢ë£àã¦¥­ë ¢ Ÿ­¤¥ªá„¨áª!" "-a:%RCLONE_LOG_FILE%"
+		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ñ… ÐºÐ¾Ð¿Ð¸Ð¹!" "-body:Ð ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ðµ ÐºÐ¾Ð¿Ð¸Ð¸, Ð½ÐµÐ±Ñ‹Ð»Ð¸ Ð²Ñ‹Ð³Ñ€ÑƒÐ¶ÐµÐ½Ñ‹ Ð² Ð¯Ð½Ð´ÐµÐºÑÐ”Ð¸ÑÐº!" "-a:%RCLONE_LOG_FILE%"
 		GOTO DOLOG
 
 :NTTSEND
 ECHO "DO NTT SEND"
-		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:¥â ®¡ì¥ªâ®¢ ¤«ï á¨­åà®­¨§ æ¨¨ à¥§¥à¢­ëå ª®¯¨©!" "-body:¥â ®¡ì¥ªâ®¢ ¤«ï á¨­åà®­¨§ æ¨¨ à¥§¥à¢­ëå ª®¯¨©!" "-a:%RCLONE_LOG_FILE%"
+		%CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:ÐÐµÑ‚ Ð¾Ð±ÑŒÐµÐºÑ‚Ð¾Ð² Ð´Ð»Ñ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ñ… ÐºÐ¾Ð¿Ð¸Ð¹!" "-body:ÐÐµÑ‚ Ð¾Ð±ÑŒÐµÐºÑ‚Ð¾Ð² Ð´Ð»Ñ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ñ‹Ñ… ÐºÐ¾Ð¿Ð¸Ð¹!" "-a:%RCLONE_LOG_FILE%"
 
-REM # ä®à¬¨àã¥¬ «®£¨à®¢ ­¨¥ ¯à®æ¥áá 
+REM # Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð»Ð¾Ð³Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ°
 :DOLOG
-	REM # ”¨á¨àã¥¬ ¨áâ®à¨î ¢ ®¡é¨© ä ©« «®£®¢
+	REM # Ð¤Ð¸ÑÐ¸Ñ€ÑƒÐµÐ¼ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ Ð² Ð¾Ð±Ñ‰Ð¸Ð¹ Ñ„Ð°Ð¹Ð» Ð»Ð¾Ð³Ð¾Ð²
 		type %RCLONE_LOG_FILE% >> "D:\LogFiles\rclone_log\sync-history.log"
-	REM # ¯¥à¥­®á ª®à¥âª¨ ­  á«¥¤ãîéãî áâà®ªã ¢ ä ©«¥ «®£®¢
+	REM # Ð¿ÐµÑ€ÐµÐ½Ð¾Ñ ÐºÐ¾Ñ€ÐµÑ‚ÐºÐ¸ Ð½Ð° ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð² Ñ„Ð°Ð¹Ð»Ðµ Ð»Ð¾Ð³Ð¾Ð²
 		echo. >> "D:\LogFiles\rclone_log\sync-history.log"
 		del %RCLONE_LOG_FILE% /f /q	
 ENDLOCAL
 exit
-
