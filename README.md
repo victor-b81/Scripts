@@ -13,4 +13,5 @@ Rus
   
 Head / Оглавление  
 ---
-RcloneBackUpYandexDisk.bat - Скрипт, резервного копирования в YandexDisk, по средствам Rclone  
+RcloneBackUpYandexDisk.bat - Скрипт, резервного копирования в YandexDisk, по средствам Rclone.  
+ClearYandexTresh.bat - Скрипт cmd, очистки корзины YadexDisk по средствам программы Rclone.
