@@ -13,4 +13,4 @@ Rus
   
 Head / Оглавление  
 ---
-RcloneBackUpYandexDisk.bat - Скрипт, резервного копирования в YandeDisk, по средствам Rclone  
+RcloneBackUpYandexDisk.bat - Скрипт, резервного копирования в YandexDisk, по средствам Rclone  
