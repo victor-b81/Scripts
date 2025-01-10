@@ -14,5 +14,5 @@ Rus
 Head / Оглавление  
 ---
 RcloneBackUpYandexDisk.bat - Скрипт, резервного копирования в YandexDisk, по средствам Rclone.  
-ClearYandexTresh.bat - Скрипт cmd, очистки корзины YadexDisk по средствам программы Rclone.
-Chek_MTS_Balance_ru.bat - Скрипт cmd, проверка состояния баланса лицевых счетов мобильного оператора МТС
+ClearYandexTresh.bat - Скрипт cmd, очистки корзины YadexDisk по средствам программы Rclone.  
+Chek_MTS_Balance_ru.bat - Скрипт cmd, проверка состояния баланса лицевых счетов мобильного оператора МТС.
