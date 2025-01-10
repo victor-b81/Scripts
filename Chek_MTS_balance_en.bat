@@ -87,7 +87,7 @@ REM # Assign the value of the personal account balance to the variable tmpBalanc
 REM # Round the personal account balance value to integers
 		SET /A tmpBalance=!tmpBalance! 2>NUL
 REM # Check if the balance crosses the threshold value. If the balance is less than 300 rubles, the system will send notifications to the mail.
-		IF /I !tmpBalance! LEQ 300 (ECHO Personal account !dataArray! = !tmpBalance! rub. - The amount is less than 300 rubles. >> %WORK_DIR%\raport.txt
+		IF /I !tmpBalance! LEQ 300 (ECHO Personal account !dataArray! = !tmpBalance! rub. - The amount is less than 300 rub. >> %WORK_DIR%\raport.txt
 		SET MAIL_SUBJECT=!MAIL_SUBJECT!!dataArray! 
 		) ELSE (ECHO Personal account !!dataArray! = !tmpBalance! rub. >> %WORK_DIR%\raport.txt)
 REM # End of the cycle of processing the array of personal accounts
@@ -97,7 +97,7 @@ REM # Convert the report file to UTF-8 format
 	%ICONV_PATH% -c -f 866 -t utf-8 %WORK_DIR%\raport.txt > %WORK_DIR%\raport_to_mail.txt
 
 REM # Check if there are any accounts with insufficient balance and send a notification e-mail.
-	FINDSTR /C: "Amount less" %WORK_DIR%\raport.txt && %CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:!MAIL_SUBJECT!" -body-file:!WORK_DIR!\raport_to_mail.txt
+	FINDSTR /C: "amount is less" %WORK_DIR%\raport.txt && %CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:!MAIL_SUBJECT!" -body-file:!WORK_DIR!\raport_to_mail.txt
 	
 ENDLOCAL
 REM # Turn off advanced command processing
