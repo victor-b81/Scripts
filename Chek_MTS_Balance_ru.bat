@@ -40,11 +40,11 @@ REM # Указываем папку для работы по умолчанию
 	SET WORK_DIR="D:\logs\Chek_MTS"
 	
 REM # ВНИМАНИЕ !!! Создаем массив лицевых счетов (в ручную!!!)
-	SET accountArray[0]=288302665444
-	SET accountArray[1]=223317397021
-	SET accountArray[2]=288302665446
-	SET accountArray[3]=288301520043
-	SET accountArray[4]=288302665445
+	SET accountArray[0]=211111111111
+	SET accountArray[1]=222222222222
+	SET accountArray[2]=233333333333
+	SET accountArray[3]=244444444444
+	SET accountArray[4]=255555555555
 
 REM # Объявляем счетчик длинны массива 
 	SET length=0
