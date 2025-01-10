@@ -1,104 +1,104 @@
-REM # Скрипт проверки состояния баланса МТС по средствам API
+REM # ╨б╨║╤А╨╕╨┐╤В ╨┐╤А╨╛╨▓╨╡╤А╨║╨╕ ╤Б╨╛╤Б╤В╨╛╤П╨╜╨╕╤П ╨▒╨░╨╗╨░╨╜╤Б╨░ ╨Ь╨в╨б ╨┐╨╛ ╤Б╤А╨╡╨┤╤Б╤В╨▓╨░╨╝ API
 @ECHO off 
 
-REM # Для процесса проверки состояния баланса МТС по средствам API требуется следующее ПО:
+REM # ╨Ф╨╗╤П ╨┐╤А╨╛╤Ж╨╡╤Б╤Б╨░ ╨┐╤А╨╛╨▓╨╡╤А╨║╨╕ ╤Б╨╛╤Б╤В╨╛╤П╨╜╨╕╤П ╨▒╨░╨╗╨░╨╜╤Б╨░ ╨Ь╨в╨б ╨┐╨╛ ╤Б╤А╨╡╨┤╤Б╤В╨▓╨░╨╝ API ╤В╤А╨╡╨▒╤Г╨╡╤В╤Б╤П ╤Б╨╗╨╡╨┤╤Г╤О╤Й╨╡╨╡ ╨Я╨Ю:
 REM # cmail - https://www.inveigle.net/cmail/download
 REM # jq - https://jqlang.github.io/jq/
-REM # curl - Предустановлено в Windows 10/11. Также можно скачать https://curl.se/windows/
-REM # iconv.exe часть комплекта GnuWin32 - https://gnuwin32.sourceforge.net/packages/libiconv.htm
-REM # Внимание!!! Для корректного отображения символов в почтовых сообщениях, кодировка файла-скрипта должна быть OEM 866
+REM # curl - ╨Я╤А╨╡╨┤╤Г╤Б╤В╨░╨╜╨╛╨▓╨╗╨╡╨╜╨╛ ╨▓ Windows 10/11. ╨в╨░╨║╨╢╨╡ ╨╝╨╛╨╢╨╜╨╛ ╤Б╨║╨░╤З╨░╤В╤М https://curl.se/windows/
+REM # iconv.exe ╤З╨░╤Б╤В╤М ╨║╨╛╨╝╨┐╨╗╨╡╨║╤В╨░ GnuWin32 - https://gnuwin32.sourceforge.net/packages/libiconv.htm
+REM # ╨Т╨╜╨╕╨╝╨░╨╜╨╕╨╡!!! ╨Ф╨╗╤П ╨║╨╛╤А╤А╨╡╨║╤В╨╜╨╛╨│╨╛ ╨╛╤В╨╛╨▒╤А╨░╨╢╨╡╨╜╨╕╤П ╤Б╨╕╨╝╨▓╨╛╨╗╨╛╨▓ ╨▓ ╨┐╨╛╤З╤В╨╛╨▓╤Л╤Е ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П╤Е, ╨║╨╛╨┤╨╕╤А╨╛╨▓╨║╨░ ╤Д╨░╨╣╨╗╨░-╤Б╨║╤А╨╕╨┐╤В╨░ ╨┤╨╛╨╗╨╢╨╜╨░ ╨▒╤Л╤В╤М OEM 866
 
-REM # = Определяем вводные данные
-REM # Указываем расположение программы JQ для обработки JSON
+REM # = ╨Ю╨┐╤А╨╡╨┤╨╡╨╗╤П╨╡╨╝ ╨▓╨▓╨╛╨┤╨╜╤Л╨╡ ╨┤╨░╨╜╨╜╤Л╨╡
+REM # ╨г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╨╕╨╡ ╨┐╤А╨╛╨│╤А╨░╨╝╨╝╤Л JQ ╨┤╨╗╤П ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╨╕ JSON
 	SET JQ_PATH="C:\AddSoft\jq\jq-windows-amd64.exe"
 	
-REM # Указываем расположение программы iconv для для конвертирования кодировки
+REM # ╨г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╨╕╨╡ ╨┐╤А╨╛╨│╤А╨░╨╝╨╝╤Л iconv ╨┤╨╗╤П ╨┤╨╗╤П ╨║╨╛╨╜╨▓╨╡╤А╤В╨╕╤А╨╛╨▓╨░╨╜╨╕╤П ╨║╨╛╨┤╨╕╤А╨╛╨▓╨║╨╕
 	SET ICONV_PATH="C:\AddSoft\GnuWin32\bin\iconv.exe"
 
-REM # Блок настройки почты
-	REM # указываем расположение файла почтовой программы
+REM # ╨С╨╗╨╛╨║ ╨╜╨░╤Б╤В╤А╨╛╨╣╨║╨╕ ╨┐╨╛╤З╤В╤Л
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╨╕╨╡ ╤Д╨░╨╣╨╗╨░ ╨┐╨╛╤З╤В╨╛╨▓╨╛╨╣ ╨┐╤А╨╛╨│╤А╨░╨╝╨╝╤Л
 		SET CMAIL_PATH="C:\AddSoft\CMail\cmail.exe"
-	REM # указываем имя, пароль и почту отправителя
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╨╕╨╝╤П, ╨┐╨░╤А╨╛╨╗╤М ╨╕ ╨┐╨╛╤З╤В╤Г ╨╛╤В╨┐╤А╨░╨▓╨╕╤В╨╡╨╗╤П
 		SET MAIL_SENDER=mail@mail.com
 		SET USER_SENDER_NAME=mail@mail.com
 		SET USER_PASS=_App_Password_
-	REM # указываем smtp адрес почты отправителя (технический почтовый ящик)
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ smtp ╨░╨┤╤А╨╡╤Б ╨┐╨╛╤З╤В╤Л ╨╛╤В╨┐╤А╨░╨▓╨╕╤В╨╡╨╗╤П (╤В╨╡╤Е╨╜╨╕╤З╨╡╤Б╨║╨╕╨╣ ╨┐╨╛╤З╤В╨╛╨▓╤Л╨╣ ╤П╤Й╨╕╨║)
 		SET MAIL_SMTP_ADDRESS=smtp.mail.com
-	REM # указываем тему письма
-		SET MAIL_SUBJECT=Не достаточно средств на лицевых счетах МТС - 
-	REM # указываем smtp адрес почты отправителя
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╤В╨╡╨╝╤Г ╨┐╨╕╤Б╤М╨╝╨░
+		SET MAIL_SUBJECT=╨Э╨╡ ╨┤╨╛╤Б╤В╨░╤В╨╛╤З╨╜╨╛ ╤Б╤А╨╡╨┤╤Б╤В╨▓ ╨╜╨░ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨░╤Е ╨Ь╨в╨б - 
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ smtp ╨░╨┤╤А╨╡╤Б ╨┐╨╛╤З╤В╤Л ╨╛╤В╨┐╤А╨░╨▓╨╕╤В╨╡╨╗╤П
 		REM # SSL/TLS (STARTTLS): 	-starttls
 		REM # SSL/TLS (SMTPS):		-secureport
 		SET MAIL_SMTP_AUTHENTICATION=-starttls
-	REM # указываем почту получателя уведомления о недостатке на балансе
+	REM # ╤Г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╨┐╨╛╤З╤В╤Г ╨┐╨╛╨╗╤Г╤З╨░╤В╨╡╨╗╤П ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П ╨╛ ╨╜╨╡╨┤╨╛╤Б╤В╨░╤В╨║╨╡ ╨╜╨░ ╨▒╨░╨╗╨░╨╜╤Б╨╡
 		SET MAIL_RECEPIENT=_mailbox_Recipient_
 		
-REM # Проверяем наличие директории для файлов отчета
+REM # ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╨╜╨░╨╗╨╕╤З╨╕╨╡ ╨┤╨╕╤А╨╡╨║╤В╨╛╤А╨╕╨╕ ╨┤╨╗╤П ╤Д╨░╨╣╨╗╨╛╨▓ ╨╛╤В╤З╨╡╤В╨░
 	IF NOT EXIST D:\logs\Chek_MTS\ mkdir D:\logs\Chek_MTS\
 
-REM # Указываем папку для работы по умолчанию
+REM # ╨г╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╨┐╨░╨┐╨║╤Г ╨┤╨╗╤П ╤А╨░╨▒╨╛╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О
 	SET WORK_DIR="D:\logs\Chek_MTS"
 	
-REM # ВНИМАНИЕ !!! Создаем массив лицевых счетов (в ручную!!!)
+REM # ╨Т╨Э╨Ш╨Ь╨Р╨Э╨Ш╨Х !!! ╨б╨╛╨╖╨┤╨░╨╡╨╝ ╨╝╨░╤Б╤Б╨╕╨▓ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓ (╨▓ ╤А╤Г╤З╨╜╤Г╤О!!!)
 	SET accountArray[0]=288302665444
 	SET accountArray[1]=223317397021
 	SET accountArray[2]=288302665446
 	SET accountArray[3]=288301520043
 	SET accountArray[4]=288302665445
 
-REM # Объявляем счетчик длинны массива 
+REM # ╨Ю╨▒╤К╤П╨▓╨╗╤П╨╡╨╝ ╤Б╤З╨╡╤В╤З╨╕╨║ ╨┤╨╗╨╕╨╜╨╜╤Л ╨╝╨░╤Б╤Б╨╕╨▓╨░ 
 	SET length=0
 
-REM # Создаем файл для отчета
-	ECHO Состояние лицевых счетов МТС на %date% > %WORK_DIR%\raport.txt
+REM # ╨б╨╛╨╖╨┤╨░╨╡╨╝ ╤Д╨░╨╣╨╗ ╨┤╨╗╤П ╨╛╤В╤З╨╡╤В╨░
+	ECHO ╨б╨╛╤Б╤В╨╛╤П╨╜╨╕╨╡ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓ ╨Ь╨в╨б ╨╜╨░ %date% > %WORK_DIR%\raport.txt
 
-REM # Получаем данные токена в виде JSON, для подключения к МТС API и сохраняем в файл tmp_output_token.json
+REM # ╨Я╨╛╨╗╤Г╤З╨░╨╡╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╤В╨╛╨║╨╡╨╜╨░ ╨▓ ╨▓╨╕╨┤╨╡ JSON, ╨┤╨╗╤П ╨┐╨╛╨┤╨║╨╗╤О╤З╨╡╨╜╨╕╤П ╨║ ╨Ь╨в╨б API ╨╕ ╤Б╨╛╤Е╤А╨░╨╜╤П╨╡╨╝ ╨▓ ╤Д╨░╨╣╨╗ tmp_output_token.json
 	curl --location --request POST "https://api.mts.ru/token" -u "_user_:_password_" --header "Content-Type: application/x-www-form-urlencoded" --data-urlencode "grant_type=client_credentials" -o %WORK_DIR%\tmp_output_token.json
 
-REM # Извлекаем токен из JSON ответа МТС API в файл tmp_access_token.tmp
+REM # ╨Ш╨╖╨▓╨╗╨╡╨║╨░╨╡╨╝ ╤В╨╛╨║╨╡╨╜ ╨╕╨╖ JSON ╨╛╤В╨▓╨╡╤В╨░ ╨Ь╨в╨б API ╨▓ ╤Д╨░╨╣╨╗ tmp_access_token.tmp
 	%JQ_PATH% -r .access_token %WORK_DIR%\tmp_output_token.json > %WORK_DIR%\access_token.tmp
 
-REM # Присваиваем токен МТС API переменной Token
+REM # ╨Я╤А╨╕╤Б╨▓╨░╨╕╨▓╨░╨╡╨╝ ╤В╨╛╨║╨╡╨╜ ╨Ь╨в╨б API ╨┐╨╡╤А╨╡╨╝╨╡╨╜╨╜╨╛╨╣ Token
 	SET /p Token="" < %WORK_DIR%\access_token.tmp
 
-REM # = Определяем длину массива лицевых счетов
-REM # Начало Цикл определения длинны массива
+REM # = ╨Ю╨┐╤А╨╡╨┤╨╡╨╗╤П╨╡╨╝ ╨┤╨╗╨╕╨╜╤Г ╨╝╨░╤Б╤Б╨╕╨▓╨░ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓
+REM # ╨Э╨░╤З╨░╨╗╨╛ ╨ж╨╕╨║╨╗ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П ╨┤╨╗╨╕╨╜╨╜╤Л ╨╝╨░╤Б╤Б╨╕╨▓╨░
 :NextStep
 	IF defined accountArray[%length%] (
 	SET /A length+=1
 	GOTO NextStep
 )
-REM # Устанавливаем длину массива меньше на единицу
+REM # ╨г╤Б╤В╨░╨╜╨░╨▓╨╗╨╕╨▓╨░╨╡╨╝ ╨┤╨╗╨╕╨╜╤Г ╨╝╨░╤Б╤Б╨╕╨▓╨░ ╨╝╨╡╨╜╤М╤И╨╡ ╨╜╨░ ╨╡╨┤╨╕╨╜╨╕╤Ж╤Г
 	SET /A length=%length%-1
-REM # Конец Цикл определения длинны массива
+REM # ╨Ъ╨╛╨╜╨╡╤Ж ╨ж╨╕╨║╨╗ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П ╨┤╨╗╨╕╨╜╨╜╤Л ╨╝╨░╤Б╤Б╨╕╨▓╨░
 
-REM # = Проверяем состояние лицевых счетов
-REM # Включаем расширенную обработку команд
+REM # = ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╤Б╨╛╤Б╤В╨╛╤П╨╜╨╕╨╡ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓
+REM # ╨Т╨║╨╗╤О╤З╨░╨╡╨╝ ╤А╨░╤Б╤И╨╕╤А╨╡╨╜╨╜╤Г╤О ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╤Г ╨║╨╛╨╝╨░╨╜╨┤
 SETLOCAL enabledelayedexpansion
-REM # Начало цикла обработки массива лицевых счетов
+REM # ╨Э╨░╤З╨░╨╗╨╛ ╤Ж╨╕╨║╨╗╨░ ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╨╕ ╨╝╨░╤Б╤Б╨╕╨▓╨░ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓
 	FOR /L %%i IN (0,1,%length%) DO (
 		SET dataArray=!accountArray[%%i]!
-REM # Получаем данные лицевого счета МТС в виде JSON и выводим данные в файл tmp_check_balance.json
+REM # ╨Я╨╛╨╗╤Г╤З╨░╨╡╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╨╗╨╕╤Ж╨╡╨▓╨╛╨│╨╛ ╤Б╤З╨╡╤В╨░ ╨Ь╨в╨б ╨▓ ╨▓╨╕╨┤╨╡ JSON ╨╕ ╨▓╤Л╨▓╨╛╨┤╨╕╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╨▓ ╤Д╨░╨╣╨╗ tmp_check_balance.json
 		curl -H "Accept: application/json" -X --location --request GET "https://api.mts.ru/b2b/v1/Bills/CheckBalanceByAccount?fields=MOAF&accountNo=!dataArray!" --header "Authorization: Bearer %Token%" -o %WORK_DIR%\tmp_check_balance.json
-REM # Получаем данные лицевого счета МТС и выводим данные в файл account_balance.tmp
+REM # ╨Я╨╛╨╗╤Г╤З╨░╨╡╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╨╗╨╕╤Ж╨╡╨▓╨╛╨│╨╛ ╤Б╤З╨╡╤В╨░ ╨Ь╨в╨б ╨╕ ╨▓╤Л╨▓╨╛╨┤╨╕╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╨▓ ╤Д╨░╨╣╨╗ account_balance.tmp
 		%JQ_PATH% -r .[].customerAccountBalance.[].remainedAmount.amount %WORK_DIR%\tmp_check_balance.json > %WORK_DIR%\account_balance.tmp
-REM # Присваиваем значение баланса лицевого счета переменной tmpBalance
+REM # ╨Я╤А╨╕╤Б╨▓╨░╨╕╨▓╨░╨╡╨╝ ╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡ ╨▒╨░╨╗╨░╨╜╤Б╨░ ╨╗╨╕╤Ж╨╡╨▓╨╛╨│╨╛ ╤Б╤З╨╡╤В╨░ ╨┐╨╡╤А╨╡╨╝╨╡╨╜╨╜╨╛╨╣ tmpBalance
 		SET /P tmpBalance=< %WORK_DIR%\account_balance.tmp
-REM # Округляем значение баланса лицевого счета до целых
+REM # ╨Ю╨║╤А╤Г╨│╨╗╤П╨╡╨╝ ╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡ ╨▒╨░╨╗╨░╨╜╤Б╨░ ╨╗╨╕╤Ж╨╡╨▓╨╛╨│╨╛ ╤Б╤З╨╡╤В╨░ ╨┤╨╛ ╤Ж╨╡╨╗╤Л╤Е
 		SET /A tmpBalance=!tmpBalance! 2>NUL
-REM # Проверяем пересечение порогового значения баланса. Если баланс меньше 300 рублей, система отправит уведомления на почту
-		IF /I !tmpBalance! LEQ 300 (ECHO Лицевой счет !dataArray! = !tmpBalance! руб. - Сумма меньше 300 руб. >> %WORK_DIR%\raport.txt
+REM # ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╨┐╨╡╤А╨╡╤Б╨╡╤З╨╡╨╜╨╕╨╡ ╨┐╨╛╤А╨╛╨│╨╛╨▓╨╛╨│╨╛ ╨╖╨╜╨░╤З╨╡╨╜╨╕╤П ╨▒╨░╨╗╨░╨╜╤Б╨░. ╨Х╤Б╨╗╨╕ ╨▒╨░╨╗╨░╨╜╤Б ╨╝╨╡╨╜╤М╤И╨╡ 300 ╤А╤Г╨▒╨╗╨╡╨╣, ╤Б╨╕╤Б╤В╨╡╨╝╨░ ╨╛╤В╨┐╤А╨░╨▓╨╕╤В ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П ╨╜╨░ ╨┐╨╛╤З╤В╤Г
+		IF /I !tmpBalance! LEQ 300 (ECHO ╨Ы╨╕╤Ж╨╡╨▓╨╛╨╣ ╤Б╤З╨╡╤В !dataArray! = !tmpBalance! ╤А╤Г╨▒. - ╨б╤Г╨╝╨╝╨░ ╨╝╨╡╨╜╤М╤И╨╡ 300 ╤А╤Г╨▒. >> %WORK_DIR%\raport.txt
 		SET MAIL_SUBJECT=!MAIL_SUBJECT!!dataArray!; 
-		) ELSE (ECHO Лицевой счет !dataArray! = !tmpBalance! руб. >> %WORK_DIR%\raport.txt)
-REM # Конец цикла обработки массива лицевых счетов
+		) ELSE (ECHO ╨Ы╨╕╤Ж╨╡╨▓╨╛╨╣ ╤Б╤З╨╡╤В !dataArray! = !tmpBalance! ╤А╤Г╨▒. >> %WORK_DIR%\raport.txt)
+REM # ╨Ъ╨╛╨╜╨╡╤Ж ╤Ж╨╕╨║╨╗╨░ ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╨╕ ╨╝╨░╤Б╤Б╨╕╨▓╨░ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓
 	)
 
-REM # Конвертируем файл отчета в формат UTF-8
+REM # ╨Ъ╨╛╨╜╨▓╨╡╤А╤В╨╕╤А╤Г╨╡╨╝ ╤Д╨░╨╣╨╗ ╨╛╤В╤З╨╡╤В╨░ ╨▓ ╤Д╨╛╤А╨╝╨░╤В UTF-8
 	%ICONV_PATH% -c -f 866 -t utf-8 %WORK_DIR%\raport.txt > %WORK_DIR%\raport_to_mail.txt
 
-REM # Проверяем наличие лицевых счетов с недостаточной суммой баланса и отправляем письмо уведомление
-	FINDSTR /C:"Сумма меньше" %WORK_DIR%\raport.txt && %CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:!MAIL_SUBJECT!" -body-file:!WORK_DIR!\raport_to_mail.txt
+REM # ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╨╜╨░╨╗╨╕╤З╨╕╨╡ ╨╗╨╕╤Ж╨╡╨▓╤Л╤Е ╤Б╤З╨╡╤В╨╛╨▓ ╤Б ╨╜╨╡╨┤╨╛╤Б╤В╨░╤В╨╛╤З╨╜╨╛╨╣ ╤Б╤Г╨╝╨╝╨╛╨╣ ╨▒╨░╨╗╨░╨╜╤Б╨░ ╨╕ ╨╛╤В╨┐╤А╨░╨▓╨╗╤П╨╡╨╝ ╨┐╨╕╤Б╤М╨╝╨╛ ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╡
+	FINDSTR /C:"╨б╤Г╨╝╨╝╨░ ╨╝╨╡╨╜╤М╤И╨╡" %WORK_DIR%\raport.txt && %CMAIL_PATH% -host:%USER_SENDER_NAME%:%USER_PASS%@%MAIL_SMTP_ADDRESS% %MAIL_SMTP_AUTHENTICATION% -to:%MAIL_RECEPIENT% -from:%MAIL_SENDER% "-subject:!MAIL_SUBJECT!" -body-file:!WORK_DIR!\raport_to_mail.txt
 	
 ENDLOCAL
-REM # Выключаем расширенную обработку команд
+REM # ╨Т╤Л╨║╨╗╤О╤З╨░╨╡╨╝ ╤А╨░╤Б╤И╨╕╤А╨╡╨╜╨╜╤Г╤О ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╤Г ╨║╨╛╨╝╨░╨╜╨┤
 EXIT
